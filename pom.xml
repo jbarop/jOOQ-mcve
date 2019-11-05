@@ -25,6 +25,11 @@
             <version>${org.jooq.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq-meta-extensions</artifactId>
+            <version>${org.jooq.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>1.4.199</version>
@@ -53,8 +58,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.0</version>
                 <configuration>
-                    <source>11</source>
-                    <target>11</target>
+                    <source>8</source>
+                    <target>8</target>
                 </configuration>
             </plugin>
 
@@ -94,13 +99,19 @@
                         </goals>
 
                         <configuration>
-                            <jdbc>
-                                <url>${db.url}</url>
-                                <user>${db.username}</user>
-                                <password>${db.password}</password>
-                            </jdbc>
                             <generator>
                                 <database>
+                                    <name>org.jooq.meta.extensions.ddl.DDLDatabase</name>
+                                    <properties>
+                                        <property>
+                                            <key>scripts</key>
+                                            <value>src/main/resources/db/migration</value>
+                                        </property>
+                                        <property>
+                                            <key>sort</key>
+                                            <value>flyway</value>
+                                        </property>
+                                    </properties>
                                     <includes>.*</includes>
                                     <schemata>
                                         <!-- PostgreSQL is lower case by default -->
